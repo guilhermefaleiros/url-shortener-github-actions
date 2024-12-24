@@ -22,3 +22,37 @@ jobs:
       run: |
         docker build -t ${{ secrets.DOCKER_USERNAME }}/url-shortener:${{ github.sha }} .
         docker push ${{ secrets.DOCKER_USERNAME }}/url-shortener:${{ github.sha }}
+
+    - name: Publish image tag for Helm
+      run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
+
+  deploy:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.27.1'
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: 'v3.12.0'
+
+    - name: Authenticate to Kubernetes
+      env:
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+
+    - name: Deploy Helm Chart
+      run: |
+        helm upgrade --install my-app ./k8s \
+          --namespace production \
+          --set image.tag=${{ env.IMAGE_TAG }}
