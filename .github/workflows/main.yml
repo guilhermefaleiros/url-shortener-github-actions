@@ -39,17 +39,21 @@ jobs:
       with:
         version: 'v1.32.0'
 
+    - name: Setup Kubectl
+      uses: azure/setup-kubectl@v1
+      with:
+        version: '1.21.0'
+
     - name: Set up Helm
       uses: azure/setup-helm@v3
       with:
         version: 'v3.16.4'
 
-    - name: Authenticate to Kubernetes
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}
-      run: |
-        mkdir -p ~/.kube
-        echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+    - name: Authenticate to kubernetes
+      uses: azure/k8s-set-context@v4.0.0
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBECONFIG }}
 
     - name: Deploy Helm Chart
       run: |
