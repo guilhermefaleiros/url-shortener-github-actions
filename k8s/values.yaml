@@ -1,7 +1,7 @@
 namespace: production
 
 image:
-  repository: guilhermefaleiros/url-shortener-api
+  repository: guilhermefaleiros/url-shortener
   tag: latest
 
 config:
