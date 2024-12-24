@@ -31,7 +31,7 @@ func (uc *UrlController) Insert(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"hash": hash,
+		"key": hash,
 	})
 }
 
