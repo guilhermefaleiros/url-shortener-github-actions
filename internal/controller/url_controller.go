@@ -41,7 +41,7 @@ func (uc *UrlController) Get(c *gin.Context) {
 	targetUrl, err := uc.service.GetTargetLink(c, hash)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"message": "URL not found",
+			"error": "URL not found",
 		})
 		return
 	}
