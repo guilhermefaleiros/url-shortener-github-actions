@@ -53,6 +53,6 @@ jobs:
 
     - name: Deploy Helm Chart
       run: |
-        helm upgrade --install my-app ./k8s \
+        helm upgrade --install url-shortener ./k8s \
           --namespace production \
           --set image.tag=${{ env.IMAGE_TAG }}
