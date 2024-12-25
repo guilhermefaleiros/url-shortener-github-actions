@@ -5,8 +5,8 @@ image:
   tag: latest
 
 config:
-  databaseUrl: "postgres://postgres:postgres@postgres:5432/url-shortener"
-  redisUrl: "redis:6379"
+  DATABASE_URL: "postgres://postgres:postgres@postgres:5432/url-shortener"
+  REDIS_URL: "redis:6379"
 
 resources:
   requests:

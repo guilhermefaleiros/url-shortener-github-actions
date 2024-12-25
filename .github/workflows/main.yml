@@ -44,14 +44,20 @@ jobs:
       with:
         version: 'v3.16.4'
 
-    - name: Authenticate to kubernetes
+    - name: Authenticate to Kubernetes
       uses: azure/k8s-set-context@v4.0.0
       with:
         method: kubeconfig
         kubeconfig: ${{ secrets.KUBECONFIG }}
 
+    - name: Add Helm Repository
+      run: |
+        helm repo add helm-repository https://guilhermefaleiros.github.io/helm-charts
+        helm repo update
+
     - name: Deploy Helm Chart
       run: |
-        helm upgrade --install url-shortener ./k8s \
+        helm upgrade --install url-shortener helm-repository/simple-backend-app \
           --namespace production \
-          --set image.tag=${{ github.sha }}
+          --set image.tag=${{ github.sha }} \
+          -f k8s/values.yaml
