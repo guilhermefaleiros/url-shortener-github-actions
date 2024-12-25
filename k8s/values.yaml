@@ -16,7 +16,7 @@ resources:
     cpu: 500m
     memory: 512Mi
 
-replicaCount: 4
+replicaCount: 2
 maxReplicas: 6
 
 service:
