@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
 	"url-shortener-api/internal/service"
+
+	"github.com/gin-gonic/gin"
 )
 
 type CreateUrlRequest struct {

@@ -2,14 +2,16 @@ package main
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"log"
+	"os"
 	"url-shortener-api/internal/cache"
 	"url-shortener-api/internal/controller"
 	"url-shortener-api/internal/repository"
 	"url-shortener-api/internal/service"
 	"url-shortener-api/internal/storage"
+
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -41,7 +43,7 @@ func main() {
 	r.POST("/urls", urlController.Insert)
 	r.GET("/:hash", urlController.Get)
 
-	err = r.Run()
+	err = r.Run(":" + os.Getenv("PORT"))
 	if err != nil {
 		log.Fatalf("failed to run server: %v", err)
 	}
