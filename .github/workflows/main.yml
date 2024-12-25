@@ -56,9 +56,18 @@ jobs:
         helm repo add helm-repository https://guilhermefaleiros.github.io/helm-charts
         helm repo update
 
-    - name: Deploy Helm Chart
+    - name: Deploy Helm Chart Production
       run: |
         helm upgrade --install url-shortener helm-repository/simple-backend-app \
           --namespace production \
           --set image.tag=${{ github.sha }} \
-          -f k8s/values.yaml
+          -f k8s/values-production.yaml
+
+    - name: Deploy Helm Chart Sandbox
+      run: |
+        helm upgrade --install url-shortener helm-repository/simple-backend-app \
+          --namespace sandbox \
+          --set image.tag=${{ github.sha }} \
+          -f k8s/values-sandbox.yaml
+    
+          
